@@ -20,4 +20,5 @@ model User {
   email         String  @unique
   emailVerified Boolean @default(false)
   password      String
+  shopCode      String
 }
