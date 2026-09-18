@@ -1,4 +1,4 @@
-import { CalendarIcon, HomeIcon } from "lucide-react";
+import { CalendarIcon, HomeIcon, UserIcon, UsersIcon } from "lucide-react";
 import Link from "next/link";
 import styled from "styled-components";
 
@@ -10,16 +10,26 @@ export default function TabBar() {
             icon: HomeIcon,
         },
         {
-            name: "Calendar",
-            link: "/",
+            name: "Planning",
+            link: "/Planning",
             icon: CalendarIcon,
+        },
+        {
+            name: "Collègue",
+            link: "/collegue",
+            icon: UsersIcon,
+        },
+        {
+            name: "Profil",
+            link: "/profil",
+            icon: UserIcon,
         },
     ];
     return (
         <TabBarContainer>
             {TabList.map((tab, i) => (
                 <Tab key={i} href={tab.link}>
-                    <tab.icon size={32} />
+                    <tab.icon size={24} />
                     <h3>{tab.name}</h3>
                 </Tab>
             ))}
@@ -39,10 +49,11 @@ const TabBarContainer = styled.nav`
     transform: translateX(-50%);
     color: black;
     width: 80%;
-    padding: 24px;
+    padding: 12px;
     border: 8px;
-    border-radius: 8px;
+    border-radius: 8 px;
     box-shadow: 0 4px 6px #0000007b;
+    border-radius: 32px;
 `;
 
 const Tab = styled(Link)`
@@ -50,5 +61,6 @@ const Tab = styled(Link)`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
+    font-size: 12px;
 `;
