@@ -2,7 +2,7 @@
 import { SelectedDayContext } from "@/context/selected-day";
 import { useSelectedDay } from "@/hook/use-selected-day";
 import Colors from "@/lib/color";
-import { DayList } from "@/lib/date-and-fn";
+import { DayList, formatHour } from "@/lib/date-and-fn";
 import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
@@ -121,9 +121,7 @@ export default function DaySelector() {
                             $selected={chosenDay == day.id}
                             $worked={day.worked}
                         >
-                            {day.worked
-                                ? `${day.start.getHours() < 10 ? "0" : ""}${day.start.getHours()}:${day.start.getMinutes() < 10 ? "0" : ""}${day.start.getMinutes()}`
-                                : "Repos"}
+                            {day.worked ? formatHour(day.start) : "Repos"}
                         </BeginHour>
                     </DayCard>
                 ))}
