@@ -28,3 +28,25 @@ export const DayList = [
         abbreged: "Sa",
     },
 ];
+
+export function getTimeDifference(target: Date) {
+    const now = new Date();
+    const difference = target.getTime() - now.getTime();
+
+    const hours = Math.floor(difference / (1000 * 60 * 60));
+    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+
+    return {
+        hours,
+        minutes,
+        milliseconds: difference,
+    };
+}
+
+export function formatHour(date: Date) {
+    return date.toLocaleTimeString("fr-FR", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+    });
+}
