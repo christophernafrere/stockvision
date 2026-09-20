@@ -1,20 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import PwaRegister from "./pwa-register";
 import StyledComponentsRegistry from "@/lib/registery";
 import TabBar from "@/layouts/tab-bar";
 import GlobalStyles from "./global-styles";
 
-const geistSans = Geist({
-    variable: "--font-geist-sans",
+const inter = Inter({
     subsets: ["latin"],
+    variable: "--font-inter",
 });
-
-const geistMono = Geist_Mono({
-    variable: "--font-geist-mono",
-    subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
     title: "StockVision",
     description: "Visualisez et suivez votre portefeuille boursier.",
@@ -32,9 +26,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
     return (
-        <html
-            lang="fr"
-            className={`${geistSans.variable} ${geistMono.variable}`}>
+        <html lang="fr" className={` ${inter.variable}`}>
             <StyledComponentsRegistry>
                 <body>
                     {children}
