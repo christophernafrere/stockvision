@@ -42,18 +42,17 @@ const TabBarContainer = styled.nav`
     bottom: 32px;
     left: 50%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     background-color: white;
     gap: 16px;
     transform: translateX(-50%);
     color: black;
     width: 80%;
-    padding: 12px;
+    padding: 8px 16px;
     border: 8px;
-    border-radius: 8 px;
     box-shadow: 0 4px 6px #0000007b;
-    border-radius: 32px;
+    border-radius: 64px;
 `;
 
 const Tab = styled(Link)`
