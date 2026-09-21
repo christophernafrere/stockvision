@@ -5,6 +5,7 @@ import { SelectedDayProvider } from "@/context/selected-day";
 import Colors from "@/lib/color";
 import styled from "styled-components";
 import ScanDaySection from "@/components/home/scan-day-section";
+import HourManagementSection from "./hour-management";
 
 export default function Home() {
     return (
@@ -14,6 +15,7 @@ export default function Home() {
                 <DaySelector />
                 <DayDataSection />
                 <ScanDaySection />
+                <HourManagementSection />
             </SelectedDayProvider>
         </Main>
     );
