@@ -12,4 +12,5 @@ export const Button = styled.button<{ $cta?: boolean }>`
     color: ${({ $cta }) => ($cta ? "white" : Colors.text.red)};
     font-weight: 700;
     border: 2px solid ${Colors.border.main.primary};
+    cursor: pointer;
 `;
