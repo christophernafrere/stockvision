@@ -5,12 +5,13 @@ import { UserService } from '../user/user.service.js';
 @Injectable()
 export class AuthService {
     static async signUp(data: {
-        lastName?: string;
-        firstName?: string;
+        lastName: string;
+        firstName: string;
         email: string;
         password: string;
+        shopCode: number;
     }) {
-        const { lastName, firstName, email, password } = data;
+        const { lastName, firstName, email, password, shopCode } = data;
 
         const existingUser = await UserService.getUserByEmail(email);
         if (existingUser) {
@@ -27,6 +28,7 @@ export class AuthService {
                     lastName,
                     firstName,
                     email,
+                    shopCode,
                     password: hash,
                 });
 
@@ -47,11 +49,39 @@ export class AuthService {
     }
 
     static async signIn(email: string, password: string) {
-        const user = await UserService.getUserByEmail(email);
-        if (!user) {
+        try {
+            const user = await UserService.getUserByEmail(email);
+            if (!user) {
+                throw new HttpException(
+                    'Invalid email or password',
+                    HttpStatus.UNAUTHORIZED,
+                );
+            } else {
+                try {
+                    const passwordIsValid = await bcrypt.compare(
+                        password,
+                        user.password,
+                    );
+
+                    if (!passwordIsValid) {
+                        throw new HttpException(
+                            'Invalid email or password',
+                            HttpStatus.UNAUTHORIZED,
+                        );
+                    } else {
+                        return 'is connected';
+                    }
+                } catch (error) {
+                    throw new HttpException(
+                        'Erreur survenue lors de la tentative de connexion',
+                        HttpStatus.INTERNAL_SERVER_ERROR,
+                    );
+                }
+            }
+        } catch (error) {
             throw new HttpException(
-                'User with this email does not exist',
-                HttpStatus.NOT_FOUND,
+                'Erreur survenue lors de la tentative de connexion',
+                HttpStatus.INTERNAL_SERVER_ERROR,
             );
         }
     }

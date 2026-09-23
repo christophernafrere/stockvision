@@ -4,10 +4,11 @@ import { prisma } from '@stockvision/prisma';
 @Injectable()
 export class UserService {
     static async createUser(data: {
-        lastName?: string;
-        firstName?: string;
+        lastName: string;
+        firstName: string;
         email: string;
         password: string;
+        shopCode: number;
     }) {
         return prisma.user.create({
             data,
