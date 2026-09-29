@@ -1,10 +1,18 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+    ConflictException,
+    Injectable,
+    InternalServerErrorException,
+    UnauthorizedException,
+} from '@nestjs/common';
 import bcrypt from 'bcryptjs';
 import { UserService } from '../user/user.service.js';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-    static async signUp(data: {
+    constructor(private readonly jwtService: JwtService) {}
+
+    async signUp(data: {
         lastName: string;
         firstName: string;
         email: string;
@@ -15,10 +23,7 @@ export class AuthService {
 
         const existingUser = await UserService.getUserByEmail(email);
         if (existingUser) {
-            throw new HttpException(
-                'User with this email already exists',
-                HttpStatus.CONFLICT,
-            );
+            throw new ConflictException();
         }
         try {
             const hash = await bcrypt.hash(password, 15);
@@ -34,55 +39,30 @@ export class AuthService {
 
                 return user;
             } catch (error) {
-                console.error(error);
-                throw new HttpException(
-                    'Error creating user',
-                    HttpStatus.INTERNAL_SERVER_ERROR,
-                );
+                throw new InternalServerErrorException();
             }
         } catch {
-            throw new HttpException(
-                'Error hashing password',
-                HttpStatus.INTERNAL_SERVER_ERROR,
-            );
+            throw new InternalServerErrorException();
         }
     }
 
-    static async signIn(email: string, password: string) {
-        try {
-            const user = await UserService.getUserByEmail(email);
-            if (!user) {
-                throw new HttpException(
-                    'Invalid email or password',
-                    HttpStatus.UNAUTHORIZED,
-                );
-            } else {
-                try {
-                    const passwordIsValid = await bcrypt.compare(
-                        password,
-                        user.password,
-                    );
+    async signIn(email: string, password: string) {
+        const user = await UserService.getUserByEmail(email);
 
-                    if (!passwordIsValid) {
-                        throw new HttpException(
-                            'Invalid email or password',
-                            HttpStatus.UNAUTHORIZED,
-                        );
-                    } else {
-                        return 'is connected';
-                    }
-                } catch (error) {
-                    throw new HttpException(
-                        'Erreur survenue lors de la tentative de connexion',
-                        HttpStatus.INTERNAL_SERVER_ERROR,
-                    );
-                }
-            }
-        } catch (error) {
-            throw new HttpException(
-                'Erreur survenue lors de la tentative de connexion',
-                HttpStatus.INTERNAL_SERVER_ERROR,
-            );
+        if (!user) {
+            throw new UnauthorizedException();
         }
+
+        const passwordIsValid = await bcrypt.compare(password, user.password);
+        if (!passwordIsValid) {
+            throw new UnauthorizedException();
+        }
+
+        const accessToken = await this.jwtService.signAsync({
+            sub: user.id,
+            email: user.email,
+        });
+
+        return { accessToken };
     }
 }
