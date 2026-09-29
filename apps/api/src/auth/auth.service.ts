@@ -174,4 +174,39 @@ export class AuthService {
             refreshToken: newRefreshToken,
         };
     }
+
+    async logout(refreshToken: string) {
+        let payload: { sub: string; sid: string };
+
+        try {
+            payload = await this.jwtService.verifyAsync(refreshToken, {
+                secret: process.env.JWT_REFRESH_SECRET,
+            });
+        } catch {
+            return;
+        }
+
+        const session = await prisma.session.findUnique({
+            where: {
+                id: payload.sid,
+            },
+        });
+
+        if (!session) {
+            return;
+        }
+
+        if (session.userId !== payload.sub) {
+            return;
+        }
+
+        await prisma.session.update({
+            where: {
+                id: session.id,
+            },
+            data: {
+                revokedAt: new Date(),
+            },
+        });
+    }
 }

@@ -8,6 +8,8 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service.js';
 import type { Request, Response } from 'express';
+import { LoginDto } from './dto/login.dto.js';
+import { RegisterDto } from './dto/register.dto.js';
 
 @Controller('auth')
 export class AuthController {
@@ -15,15 +17,9 @@ export class AuthController {
     @Post('sign-up')
     async signUp(
         @Body()
-        body: {
-            lastName: string;
-            firstName: string;
-            email: string;
-            password: string;
-            shopCode: number;
-        },
+        dto: RegisterDto,
     ) {
-        const { lastName, firstName, email, password, shopCode } = body;
+        const { lastName, firstName, email, password, shopCode } = dto;
 
         const newUser = await this.authService.signUp({
             lastName,
@@ -38,10 +34,10 @@ export class AuthController {
 
     @Post('login')
     async login(
-        @Body() body: { email: string; password: string },
+        @Body() dto: LoginDto,
         @Res({ passthrough: true }) response: Response,
     ) {
-        const { email, password } = body;
+        const { email, password } = dto;
         const { accessToken, refreshToken } = await this.authService.signIn(
             email,
             password,
@@ -85,5 +81,25 @@ export class AuthController {
     }
 
     @Post('logout')
-    async logout() {}
+    async logout(
+        @Req() request: Request,
+        @Res({ passthrough: true }) response: Response,
+    ) {
+        const refreshToken = request.cookies.refresh_token;
+
+        if (refreshToken) {
+            await this.authService.logout(refreshToken);
+        }
+
+        response.clearCookie('refresh_token', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            path: '/auth',
+        });
+
+        return {
+            message: 'logged out successfully',
+        };
+    }
 }
