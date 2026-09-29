@@ -3,6 +3,7 @@ import { AuthService } from './auth.service.js';
 
 @Controller('auth')
 export class AuthController {
+    constructor(private readonly authService: AuthService) {}
     @Post('sign-up')
     async signUp(
         @Body()
@@ -16,7 +17,7 @@ export class AuthController {
     ) {
         const { lastName, firstName, email, password, shopCode } = body;
 
-        const newUser = await AuthService.signUp({
+        const newUser = await this.authService.signUp({
             lastName,
             firstName,
             email,
@@ -30,9 +31,6 @@ export class AuthController {
     @Post('login')
     async login(@Body() body: { email: string; password: string }) {
         const { email, password } = body;
-
-        const connect = await AuthService.signIn(email, password);
-
-        return connect;
+        return await this.authService.signIn(email, password);
     }
 }
