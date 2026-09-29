@@ -4,8 +4,8 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider     = "prisma-client"
+  output       = "../generated/prisma"
   moduleFormat = "cjs"
 }
 
@@ -21,5 +21,21 @@ model User {
   emailVerified Boolean @default(false)
   password      String
   shopCode      Int
+
+  sessions Session[]
 }
 
+model Session {
+  id     String @id @default(uuid())
+  userId String
+
+  refreshTokenHash String?
+
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
+  revokedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
