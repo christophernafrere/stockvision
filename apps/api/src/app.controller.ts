@@ -4,10 +4,12 @@ import { prisma } from '@stockvision/prisma';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+    constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
+    @Get()
+    getHello(): string {
+        console.log(process.env.DATABASE_URL);
+
+        return this.appService.getHello();
+    }
 }
