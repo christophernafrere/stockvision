@@ -75,18 +75,17 @@ export default function DaySelector() {
     useEffect(() => {
         const today = new Date();
 
-        const defaultDay = days.find(
-            (day) =>
-                day.start.getFullYear() === today.getFullYear() &&
-                day.start.getMonth() === today.getMonth() &&
-                day.start.getDate() === today.getDate(),
-        )?.id;
+        const defaultDay =
+            days.find(
+                (day) =>
+                    day.start.getFullYear() === today.getFullYear() &&
+                    day.start.getMonth() === today.getMonth() &&
+                    day.start.getDate() === today.getDate(),
+            )?.id ?? days[0]?.id;
 
-        console.log(defaultDay);
-        if (!defaultDay) {
-            throw new Error("error selection day");
+        if (defaultDay) {
+            chooseDay(defaultDay);
         }
-        chooseDay(defaultDay);
     }, []);
 
     return (
