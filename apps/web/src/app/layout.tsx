@@ -4,6 +4,9 @@ import PwaRegister from "./pwa-register";
 import StyledComponentsRegistry from "@/lib/registery";
 import TabBar from "@/layouts/tab-bar";
 import GlobalStyles from "./global-styles";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { AuthProvider } from "@/context/auth-context";
 
 const inter = Inter({
     subsets: ["latin"],
@@ -29,10 +32,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <html lang="fr" className={` ${inter.variable}`}>
             <StyledComponentsRegistry>
                 <body>
-                    {children}
-                    <PwaRegister />
-                    <TabBar />
-                    <GlobalStyles />
+                    <AuthProvider>
+                        <ToastContainer />
+                        {children}
+                        <PwaRegister />
+                        <TabBar />
+                        <GlobalStyles />
+                    </AuthProvider>
                 </body>
             </StyledComponentsRegistry>
         </html>

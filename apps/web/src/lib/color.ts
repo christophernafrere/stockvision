@@ -25,6 +25,7 @@ const Colors = {
             secondary: "#89f5e780",
         },
         grey: "#DAE2FD",
+        greyBlue: "#EAEDFF",
         greyDisabled: "#F2F3FF",
     },
 };

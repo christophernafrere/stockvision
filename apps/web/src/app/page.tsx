@@ -6,8 +6,22 @@ import Colors from "@/lib/color";
 import styled from "styled-components";
 import ScanDaySection from "@/components/home/scan-day-section";
 import HourManagementSection from "./hour-management";
+import { useEffect } from "react";
+import { useAuth } from "@/context/auth-context";
 
 export default function Home() {
+    const { apiFetch } = useAuth();
+    useEffect(() => {
+        const testFetch = async () => {
+            const response = await apiFetch("http://localhost:4000/user/me");
+
+            const data = await response.json();
+
+            console.log(data);
+        };
+
+        testFetch();
+    }, []);
     return (
         <Main>
             <SelectedDayProvider>
