@@ -15,6 +15,10 @@ const GlobalStyles = createGlobalStyle`
         color: black;
         text-decoration: none;
     }
+    main {
+
+        padding-bottom: 100px;
+    }
 `;
 
 export default GlobalStyles;
