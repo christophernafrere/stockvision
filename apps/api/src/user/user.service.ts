@@ -7,6 +7,8 @@ export class UserService {
         lastName: string;
         firstName: string;
         email: string;
+        birthday: Date;
+        phone: string;
         password: string;
         shopCode: number;
     }) {
@@ -36,7 +38,9 @@ export class UserService {
         data: Partial<{
             lastName?: string;
             firstName?: string;
+            birthday?: Date;
             email?: string;
+            phone?: string;
             password?: string;
         }>,
     ) {

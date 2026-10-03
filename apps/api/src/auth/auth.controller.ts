@@ -19,12 +19,22 @@ export class AuthController {
         @Body()
         dto: RegisterDto,
     ) {
-        const { lastName, firstName, email, password, shopCode } = dto;
+        const {
+            lastName,
+            firstName,
+            email,
+            password,
+            phone,
+            birthday,
+            shopCode,
+        } = dto;
 
         const newUser = await this.authService.signUp({
             lastName,
             firstName,
             email,
+            birthday,
+            phone,
             password,
             shopCode,
         });
@@ -32,7 +42,7 @@ export class AuthController {
         return newUser;
     }
 
-    @Post('login')
+    @Post('sign-in')
     async login(
         @Body() dto: LoginDto,
         @Res({ passthrough: true }) response: Response,
@@ -76,7 +86,7 @@ export class AuthController {
         });
 
         return {
-            accesToken: result.accessToken,
+            accessToken: result.accessToken,
         };
     }
 
