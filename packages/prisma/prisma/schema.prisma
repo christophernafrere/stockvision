@@ -19,9 +19,10 @@ model User {
   firstName     String
   email         String  @unique
   emailVerified Boolean @default(false)
+  phone         String
   password      String
-  shopCode      Int
-
+  shopCode      Int   @unique
+  birthday      DateTime
   sessions Session[]
 }
 

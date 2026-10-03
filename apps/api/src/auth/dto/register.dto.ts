@@ -1,7 +1,9 @@
+import { Type } from 'class-transformer';
 import {
+    IsDate,
     IsEmail,
     IsInt,
-    IsNumber,
+    IsPhoneNumber,
     IsString,
     Matches,
     Max,
@@ -26,6 +28,13 @@ export class RegisterDto {
         message: 'L’adresse email doit être une adresse Auchan valide',
     })
     email: string;
+
+    @IsPhoneNumber('FR')
+    phone: string;
+
+    @Type(() => Date)
+    @IsDate()
+    birthday: Date;
 
     @IsString()
     @MinLength(8)

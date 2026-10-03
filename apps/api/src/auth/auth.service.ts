@@ -17,10 +17,20 @@ export class AuthService {
         lastName: string;
         firstName: string;
         email: string;
+        birthday: Date;
         password: string;
         shopCode: number;
+        phone: string;
     }) {
-        const { lastName, firstName, email, password, shopCode } = data;
+        const {
+            lastName,
+            firstName,
+            email,
+            password,
+            birthday,
+            phone,
+            shopCode,
+        } = data;
 
         const existingUser = await UserService.getUserByEmail(email);
         if (existingUser) {
@@ -34,6 +44,8 @@ export class AuthService {
                     lastName,
                     firstName,
                     email,
+                    birthday,
+                    phone,
                     shopCode,
                     password: hash,
                 });
