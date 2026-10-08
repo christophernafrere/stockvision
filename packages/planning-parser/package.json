@@ -1,0 +1,31 @@
+{
+    "name": "planning-parser",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "build": "tsc",
+        "debug:pdf": "tsx src/debug.ts",
+        "test": "jest",
+        "test:watch": "jest --watch"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "module",
+    "devDependencies": {
+        "@babel/preset-env": "^8.0.6",
+        "@babel/preset-typescript": "^8.0.1",
+        "@jest/globals": "^30.5.2",
+        "@types/jest": "^30.0.0",
+        "@types/node": "^26.6.4",
+        "jest": "^30.5.2",
+        "ts-jest": "^29.4.14",
+        "ts-node": "^10.9.2",
+        "tsx": "^4.23.15",
+        "typescript": "^7.0.2"
+    },
+    "dependencies": {
+        "unpdf": "^1.8.1"
+    }
+}
