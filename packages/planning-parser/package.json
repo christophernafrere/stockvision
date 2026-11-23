@@ -2,7 +2,8 @@
     "name": "planning-parser",
     "version": "1.0.0",
     "description": "",
-    "main": "index.js",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
     "scripts": {
         "build": "tsc",
         "debug:pdf": "tsx src/debug.ts",

@@ -36,4 +36,44 @@ describe("groupIntoEmployeeBlocks", () => {
         expect(result[1].sellerId).toBe("685");
         expect(result[1].rows.map((row) => row.y)).toEqual([470, 458]);
     });
+
+    it("does not add page footers to the preceding employee", () => {
+        const rows: PdfRow[] = [
+            {
+                y: 500,
+                items: [
+                    createItem("Page 1", 500),
+                    createItem("|", 500),
+                    createItem("/", 500),
+                    createItem("14", 500),
+                ],
+            },
+            { y: 510, items: [createItem("MARTIN", 510)] },
+            { y: 520, items: [createItem("[112]", 520)] },
+        ];
+
+        const result = groupIntoEmployeeBlocks(rows);
+
+        expect(result).toHaveLength(1);
+        expect(result[0].rows.map((row) => row.y)).toEqual([520, 510]);
+    });
+
+    it("does not add repeated table headers to the preceding employee", () => {
+        const rows: PdfRow[] = [
+            {
+                y: 500,
+                items: [
+                    createItem("Hôtesses", 500),
+                    createItem("dim 1 janv.", 500),
+                ],
+            },
+            { y: 510, items: [createItem("MARTIN", 510)] },
+            { y: 520, items: [createItem("[112]", 520)] },
+        ];
+
+        const result = groupIntoEmployeeBlocks(rows);
+
+        expect(result).toHaveLength(1);
+        expect(result[0].rows.map((row) => row.y)).toEqual([520, 510]);
+    });
 });

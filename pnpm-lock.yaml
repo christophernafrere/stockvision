@@ -62,6 +62,9 @@ importers:
       passport-jwt:
         specifier: ^4.0.1
         version: 4.0.1
+      planning-parser:
+        specifier: workspace:*
+        version: link:../../packages/planning-parser
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
